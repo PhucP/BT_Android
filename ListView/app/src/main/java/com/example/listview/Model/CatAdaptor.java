@@ -1,12 +1,15 @@
 package com.example.listview.Model;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.listview.R;
@@ -16,9 +19,11 @@ import java.util.List;
 public class CatAdaptor extends RecyclerView.Adapter<CatAdaptor.CatViewHolder>
 {
     private List<Cat> mList;
+//    private Context context;
 
-    public CatAdaptor(List<Cat> mList) {
+    public CatAdaptor(List<Cat> mList ) {
         this.mList = mList;
+        //this.context = context;
     }
 
     @NonNull
@@ -35,6 +40,12 @@ public class CatAdaptor extends RecyclerView.Adapter<CatAdaptor.CatViewHolder>
             return;
         holder.img.setImageResource(cat.getImage());
         holder.tv.setText(cat.getName());
+//        holder.cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(context.getApplicationContext(), cat.getName(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     @Override
@@ -48,10 +59,13 @@ public class CatAdaptor extends RecyclerView.Adapter<CatAdaptor.CatViewHolder>
     {
         private ImageView img;
         private TextView tv;
+        private CardView cardView;
+
         public CatViewHolder(@NonNull View view) {
             super(view);
             img = view.findViewById(R.id.img);
             tv = view.findViewById(R.id.name);
+            cardView = view.findViewById(R.id.cView);
         }
     }
 }

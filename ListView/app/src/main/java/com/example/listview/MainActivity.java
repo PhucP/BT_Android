@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rview);
         tempText = findViewById(R.id.tempText);
         registerForContextMenu(tempText);
-        adaptor = new CatAdaptor(GetList());
+        adaptor = new CatAdaptor(GetList()  );
         GridLayoutManager manager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adaptor);
@@ -43,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
     private List<Cat> GetList() {
         List<Cat> list = new ArrayList<>();
         list.add(new Cat(R.drawable.a1, "universal1"));
-        list.add(new Cat(R.drawable.a2, "universal1"));
-        list.add(new Cat(R.drawable.a3, "universal1"));
-        list.add(new Cat(R.drawable.a4, "universal1"));
-        list.add(new Cat(R.drawable.a5, "universal1"));
-        list.add(new Cat(R.drawable.a6, "universal1"));
+        list.add(new Cat(R.drawable.a2, "universal2"));
+        list.add(new Cat(R.drawable.a3, "universal3"));
+        list.add(new Cat(R.drawable.a4, "universal4"));
+        list.add(new Cat(R.drawable.a5, "universal5"));
+        list.add(new Cat(R.drawable.a6, "universal6"));
         return list;
     }
 
