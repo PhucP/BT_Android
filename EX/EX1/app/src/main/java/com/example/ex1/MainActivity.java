@@ -1,6 +1,7 @@
 package com.example.ex1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,13 +17,18 @@ import com.example.ex1.model.Cat;
 import com.example.ex1.model.CatAdapter;
 import com.example.ex1.model.SpinnerAdapter;
 
-public class MainActivity extends AppCompatActivity implements CatAdapter.CatItemListener {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+public class MainActivity extends AppCompatActivity implements CatAdapter.CatItemListener, SearchView.OnQueryTextListener {
     private Spinner sp;
     private RecyclerView recyclerView;
     private CatAdapter adapter;
     private EditText eName, eDescribe, ePrice;
     private Button btAdd, btUpdate;
     private int pcurr;
+    private SearchView searchView;
 
     private int[] imgs = {
             R.drawable.a1,
@@ -41,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements CatAdapter.CatIte
         LinearLayoutManager manager = new LinearLayoutManager(this, recyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-
+        searchView.setOnQueryTextListener(this);
         adapter.setOnClickListener(this);
 
 
@@ -111,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements CatAdapter.CatIte
         btAdd = findViewById(R.id.btAdd);
         btUpdate = findViewById(R.id.btUpdate);
         btUpdate.setEnabled(false);
+        searchView = findViewById(R.id.search);
     }
 
     @Override
@@ -132,5 +139,31 @@ public class MainActivity extends AppCompatActivity implements CatAdapter.CatIte
         eName.setText(cat.getName());
         eDescribe.setText(cat.getDescribe());
         ePrice.setText(cat.getPrice() + "");
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        filter(s);
+        return false;
+    }
+
+    private void filter(String s) {
+        List<Cat> filterlist = new ArrayList<>();
+        for(Cat i:adapter.getBackup()) {
+            if(i.getName().toLowerCase().contains(s.toLowerCase())){
+                filterlist.add(i);
+            }
+        }
+        if(filterlist.isEmpty()) {
+            Toast.makeText(this, "KHONG CO", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            adapter.filterList(filterlist);
+        }
     }
 }
