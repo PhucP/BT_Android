@@ -37,6 +37,9 @@ public class Cat {
         this.price = price;
     }
 
+    public Cat() {
+    }
+
     public Cat(int img, String name, String describe, double price) {
         this.img = img;
         this.name = name;

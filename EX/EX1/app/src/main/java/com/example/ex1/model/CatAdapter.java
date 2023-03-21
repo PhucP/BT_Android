@@ -19,10 +19,15 @@ import java.util.List;
 public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
     private Context context;
     private List<Cat> mlist;
+    private CatItemListener mCatItem;
 
     public CatAdapter(Context context) {
         this.context = context;
         mlist = new ArrayList<>();
+    }
+
+    public void setOnClickListener(CatItemListener catItemListener) {
+        this.mCatItem = catItemListener;
     }
 
     @NonNull
@@ -40,9 +45,27 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
             holder.tvName.setText(cat.getName());
             holder.tvDescribe.setText(cat.getDescribe());
             holder.tvPrice.setText(cat.getPrice() + "");
+
+            holder.btRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mlist.remove(holder.getAdapterPosition());
+                    notifyDataSetChanged();
+                }
+            });
         }
         else return;
 
+    }
+
+    public void add(Cat cat) {
+        mlist.add(cat);
+        notifyDataSetChanged();
+    }
+
+    public void update(int position, Cat cat) {
+        mlist.set(position, cat);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -52,7 +75,11 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
         else return 0;
     }
 
-    public class CatViewHolder extends RecyclerView.ViewHolder {
+    public Cat getItem(int position) {
+        return  mlist.get(position);
+    }
+
+    public class CatViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView img;
         private TextView tvName, tvDescribe, tvPrice;
         private Button btRemove;
@@ -65,7 +92,18 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
             tvPrice = view.findViewById(R.id.txtPrice);
             btRemove = view.findViewById(R.id.btRemove);
 
-
+            view.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            if(mCatItem != null) {
+                mCatItem.onItemClick(view, getAdapterPosition());
+            }
+        }
+    }
+
+    public interface CatItemListener {
+        void onItemClick(View view, int position);
     }
 }
