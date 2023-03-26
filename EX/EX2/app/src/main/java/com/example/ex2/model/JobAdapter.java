@@ -72,5 +72,10 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder>{
             btRemove = view.findViewById(R.id.btRemove);
         }
     }
+
+    public void addJob(Job newJob) {
+        mList.add(newJob);
+        notifyDataSetChanged();
+    }
 }
 

@@ -14,14 +14,16 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ex2.model.Job;
 import com.example.ex2.model.JobAdapter;
 
 import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private JobAdapter adapter;
     private EditText name;
@@ -56,45 +58,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rbMan = findViewById(R.id.rbMan);
         rbWoman = findViewById(R.id.rbWoman);
         searchView = findViewById(R.id.searchView);
-    }
 
-    private void mainActivity() {
         // set new adapter
         adapter = new JobAdapter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        // setup for btn
-        btTime.setOnClickListener(this);
-        btAdd.setOnClickListener(this);
-        btUpdate.setOnClickListener(this);
+        btUpdate.setActivated(false);
+    }
+
+    private void mainActivity() {
+        pickTime();
+        addJob();
     }
 
     private void pickTime() {
-        Calendar c = Calendar.getInstance();
-        int cy = c.get(Calendar.YEAR);
-        int cm = c.get(Calendar.MONTH);
-        int cd = c.get(Calendar.DATE);
-
-        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        btTime.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
-                time.setText(d + "/" + (m + 1) + "/" + y);
+            public void onClick(View view) {
+                Calendar c = Calendar.getInstance();
+                int cy = c.get(Calendar.YEAR);
+                int cm = c.get(Calendar.MONTH);
+                int cd = c.get(Calendar.DATE);
+
+                DatePickerDialog dialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                        time.setText(d + "/" + (m + 1) + "/" + y);
+                    }
+                }, cy, cm, cd);
+                dialog.show();
             }
-        }, cy, cm, cd);
-        dialog.show();
+        });
     }
 
-    @Override
-    public void onClick(View view) {
-        if(view == btTime)
-        {
-           pickTime();
-        } else if(view == btAdd) {
+    private void addJob() {
+        btAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    String newName = name.getText().toString();
+                    String newTime = time.getText().toString();
+                    String newGender = new String();
+                    int idGender = rbGroup.getCheckedRadioButtonId();
+                    newGender = idGender == R.id.rbWoman ? "woman" : "man";
 
-        } else if(view == btUpdate) {
+                    Job newJob = new Job(newName, newTime, newGender);
+                    adapter.addJob(newJob);
+                    reset();
+                } catch (NullPointerException e) {
+                    Toast.makeText(MainActivity.this, "NHAP THEM THONG TIN", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
-        }
+    private void reset() {
+        name.setText("");
+        time.setText("");
+        rbGroup.clearCheck();
     }
 }

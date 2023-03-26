@@ -17,6 +17,9 @@ public class Job {
         this.gender = gender;
     }
 
+    public Job() {
+    }
+
     public String getName() {
         return name;
     }
