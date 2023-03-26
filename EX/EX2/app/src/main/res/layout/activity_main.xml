@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="thong tin cong viec"
+        android:gravity="center"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="TEN CONG VIEC"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_marginLeft="20dp"
+            android:hint="nhap ten cong viec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="THOI GIAN"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/txtTime"
+            android:hint="chon thoi gian"
+            android:layout_marginLeft="55dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btTime"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="TIME PICKER"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="GENDER"
+            android:layout_height="wrap_content"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbwoman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="WOMAN" />
+
+            <RadioButton
+                android:id="@+id/rbman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="MAN" />
+
+        </RadioGroup>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/btADD"
+            android:text="ADD"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:id="@+id/btUpdate"
+            android:text="UPDATE"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.SearchView
+        android:layout_marginTop="20dp"
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        app:queryHint="Search view"
+        app:iconifiedByDefault="false"
+        android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:id="@+id/recycleView"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
