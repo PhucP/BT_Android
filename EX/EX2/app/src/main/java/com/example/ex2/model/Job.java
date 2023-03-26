@@ -1,7 +1,15 @@
 package com.example.ex2.model;
 
+import android.media.Image;
+
+import com.example.ex2.R;
+
 public class Job {
     private String name, time, gender;
+    public int[] imgs = {
+            R.drawable.man,
+            R.drawable.woman
+    };
 
     public Job(String name, String time, String gender) {
         this.name = name;
