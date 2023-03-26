@@ -19,10 +19,15 @@ import java.util.List;
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder>{
     private Context context;
     private List<Job> mList;
+    private JobItemListener jobItemListener;
 
     public JobAdapter(Context context) {
         this.context = context;
         mList = new ArrayList<>();
+    }
+
+    public void setClickListener(JobItemListener jobItemListener) {
+        this.jobItemListener = jobItemListener;
     }
 
     @NonNull
@@ -30,6 +35,10 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder>{
     public JobViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
         return new JobViewHolder(view);
+    }
+
+    public Job getJob(int position) {
+        return mList.get(position);
     }
 
     @Override
@@ -50,7 +59,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder>{
         holder.btRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mList.remove(position);
+                mList.remove(holder.getAdapterPosition());
                 notifyDataSetChanged();
             }
         });
@@ -61,7 +70,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder>{
         return mList.size();
     }
 
-    public class JobViewHolder extends RecyclerView.ViewHolder {
+    public class JobViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ImageView img;
         private TextView name, time;
         private Button btRemove;
@@ -76,12 +85,29 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder>{
             name = view.findViewById(R.id.name);
             time = view.findViewById(R.id.time);
             btRemove = view.findViewById(R.id.btRemove);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(jobItemListener != null) {
+                jobItemListener.onItemClick(view, getAdapterPosition());
+            }
         }
     }
 
     public void addJob(Job newJob) {
         mList.add(newJob);
         notifyDataSetChanged();
+    }
+
+    public void updateJob(int positon, Job job) {
+        mList.set(positon, job);
+        notifyDataSetChanged();
+    }
+
+    public interface JobItemListener {
+        void onItemClick(View view, int position);
     }
 }
 

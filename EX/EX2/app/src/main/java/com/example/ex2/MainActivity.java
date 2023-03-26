@@ -23,7 +23,7 @@ import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements JobAdapter.JobItemListener{
     private RecyclerView recyclerView;
     private JobAdapter adapter;
     private EditText name;
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbMan;
     private RadioButton rbWoman;
     private SearchView searchView;
+    private int pcurr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +62,39 @@ public class MainActivity extends AppCompatActivity {
 
         // set new adapter
         adapter = new JobAdapter(this);
+        adapter.setClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        btUpdate.setActivated(false);
+        btUpdate.setEnabled(false);
     }
 
     private void mainActivity() {
         pickTime();
         addJob();
+        updateJob();
+    }
+
+    private void updateJob() {
+        btUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    String newName = name.getText().toString();
+                    String newTime = time.getText().toString();
+                    String newGender = new String();
+                    int idGender = rbGroup.getCheckedRadioButtonId();
+                    newGender = idGender == R.id.rbWoman ? "woman" : "man";
+
+                    Job newJob = new Job(newName, newTime, newGender);
+                    adapter.updateJob(pcurr, newJob);
+                    reset();
+                } catch (NullPointerException e) {
+                    Toast.makeText(MainActivity.this, "NHAP THEM THONG TIN", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void pickTime() {
@@ -118,5 +142,27 @@ public class MainActivity extends AppCompatActivity {
         name.setText("");
         time.setText("");
         rbGroup.clearCheck();
+        btUpdate.setEnabled(false);
+        btAdd.setEnabled(true);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        btAdd.setEnabled(false);
+        btUpdate.setEnabled(true);
+        pcurr = position;
+
+        Job job = adapter.getJob(position);
+        String tempGender = job.getGender();
+        String tempName = job.getName();
+        String tempTime = job.getTime();
+
+        if(tempGender.equalsIgnoreCase("man")) {
+            rbGroup.check(R.id.rbMan);
+        } else {
+            rbGroup.check(R.id.rbWoman);
+        }
+        name.setText(tempName);
+        time.setText(tempTime);
     }
 }
