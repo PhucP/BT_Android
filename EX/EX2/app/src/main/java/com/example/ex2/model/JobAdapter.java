@@ -47,6 +47,13 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder>{
         }
         holder.name.setText(job.getName());
         holder.time.setText(job.getTime());
+        holder.btRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mList.remove(position);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -68,7 +75,6 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder>{
             img = view.findViewById(R.id.img);
             name = view.findViewById(R.id.name);
             time = view.findViewById(R.id.time);
-            btRemove = view.findViewById(R.id.btRemove);
             btRemove = view.findViewById(R.id.btRemove);
         }
     }
