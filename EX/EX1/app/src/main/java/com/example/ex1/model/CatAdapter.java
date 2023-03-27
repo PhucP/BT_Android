@@ -20,13 +20,13 @@ import java.util.List;
 
 public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
     private Context context;
-    private List<Cat> mlist;
+    private List<Cat> mList;
     private List<Cat> listBackup;
     private CatItemListener mCatItem;
 
     public CatAdapter(Context context) {
         this.context = context;
-        mlist = new ArrayList<>();
+        mList = new ArrayList<>();
         listBackup = new ArrayList<>();
     }
 
@@ -34,8 +34,8 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
         return listBackup;
     }
 
-    public void filterList(List<Cat> filterlist) {
-        mlist = filterlist;
+    public void filterList(List<Cat> filterList) {
+        mList = filterList;
         notifyDataSetChanged();
     }
 
@@ -52,7 +52,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CatViewHolder holder, int position) {
-        Cat cat = mlist.get(position);
+        Cat cat = mList.get(position);
         if(cat != null){
             holder.img.setImageResource(cat.getImg());
             holder.tvName.setText(cat.getName());
@@ -70,7 +70,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             int tempIndex = holder.getAdapterPosition();
-                            mlist.remove(tempIndex);
+                            mList.remove(tempIndex);
                             listBackup.remove(tempIndex);
                             notifyDataSetChanged();
                         }
@@ -94,25 +94,25 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.CatViewHolder> {
 
     public void add(Cat cat) {
         listBackup.add(cat);
-        mlist.add(cat);
+        mList.add(cat);
         notifyDataSetChanged();
     }
 
     public void update(int position, Cat cat) {
         listBackup.set(position, cat);
-        mlist.set(position, cat);
+        mList.set(position, cat);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        if(mlist != null)
-            return mlist.size();
+        if(mList != null)
+            return mList.size();
         else return 0;
     }
 
     public Cat getItem(int position) {
-        return  mlist.get(position);
+        return  mList.get(position);
     }
 
     public class CatViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
